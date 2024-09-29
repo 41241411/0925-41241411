@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css"> <!-- 引入CSS -->
+    <title>卡片翻转效果</title>
+</head>
+
+<body>
+    <div id="countdown" style="font-size: 24px; margin-bottom: 20px;">10</div>
+    <div class="button-container">
+        <button id="start-game">開始遊戲</button>
+        <button id="show-front">全部翻至正面</button>
+        <button id="show-back">全部翻至背面</button>
+        <!-- 改为单选按钮 -->
+        <label>
+            <input type="radio" name="theme" id="theme-8">
+            <span>蔬菜</span>
+        </label>
+        <label>
+            <input type="radio" name="theme" id="theme-16">
+            <span>聖誕節</span>
+        </label>
+    </div>
+    <div class="container" id="card-container"></div>
+
+    <script src="script.js"></script> <!-- 引入JS -->
+
+</body>
+
+</html>

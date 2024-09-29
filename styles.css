@@ -1,0 +1,169 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background: linear-gradient(to right, #f0f8ff, #e6e6fa); /* 漸變背景 */
+}
+
+.button-container {
+    display: flex; /* 使用 Flexbox */
+    gap: 10px; /* 按钮之间的间距 */
+}
+
+button.selected {
+    background: #000000; /* 选中状态背景颜色 */
+    /*border: 2px solid #fff;  选中状态边框 */
+}
+
+.container {
+    margin: 0 auto; /* 中心对齐 */
+    padding: 20px; /* 保持内边距一致 */
+    display: grid;
+    grid-template-columns: repeat(4, 200px); /* 固定为4列，每列200px宽 */
+    grid-template-rows: repeat(4, 300px); /* 固定为4行，每行300px高 */
+    gap: 20px; /* 列间距 */
+    perspective: 1000px; /* 3D效果 */
+    width: calc(4 * 200px + 3 * 20px + 40px); /* 根据列宽和间距计算总宽度 */
+    height: calc(4 * 300px + 3 * 20px); /* 根据行高和间距计算总高度 */
+}
+
+
+
+
+
+.card {
+    width: 200px;
+    height: 300px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+    cursor: pointer;
+    border: 2px solid #007BFF; /* 添加边框 */
+    border-radius: 10px; /* 圆角边框 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 阴影效果 */
+}
+
+.card:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* 鼠标悬停时增加阴影 */
+}
+
+.card.flipped {
+    transform: rotateY(180deg);
+}
+
+.face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.front {
+    background-color: #fff;
+}
+
+.back {
+    background-color: #007BFF;
+    color: white;
+    transform: rotateY(180deg);
+}
+
+img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}
+
+button {
+    margin: 10px;
+    padding: 10px 25px; /* 调整内边距以扩展按钮 */
+    font-size: 16px;
+    border: none;
+    border-radius: 10px; /* 圆角 */
+    background: linear-gradient(90deg, #007BFF, #0056b3); /* 渐变背景 */
+    color: white; /* 字体颜色 */
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 阴影效果 */
+    line-height: 1.5; /* 使按钮高度与字体高度一致 */
+}
+
+button:hover {
+    background: linear-gradient(90deg, #0056b3, #003d80); /* 悬停时的渐变背景 */
+    transform: translateY(-2px); /* 悬停时轻微上升 */
+}
+
+button:active {
+    transform: translateY(0); /* 按下时回到原位 */
+}
+
+#countdown {
+    font-size: 24px;
+    margin-bottom: 20px;
+    visibility: hidden; /* 初始状态为隐藏，但保留空间 */
+    height: 30px; /* 设置固定高度 */
+}
+
+.button-container label {
+    margin: 10px;
+    padding: 10px 25px; /* 调整内边距以扩展按钮 */
+    font-size: 16px;
+    border: none;
+    border-radius: 10px; /* 圆角 */
+    background: linear-gradient(90deg, #007BFF, #0056b3); /* 渐变背景 */
+    color: white; /* 字体颜色 */
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 阴影效果 */
+    line-height: 1.5; /* 使按钮高度与字体高度一致 */
+    display: inline-flex;
+    align-items: center; /* 垂直居中内容 */
+}
+
+.button-container input[type="radio"] {
+    margin-right: 10px; /* 调整圆圈和文字的距离 */
+    width: 20px;
+    height: 20px;
+    accent-color: black; /* 设置圆圈的颜色 */
+    vertical-align: middle; /* 设置单选按钮与文字的对齐 */
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+
+.fade-out {
+    opacity: 0; /* 设置透明度为0 */
+    transition: opacity 1s ease; /* 1秒内渐隐 */
+}
+
+.swal-popup {
+    background-color: #f8f9fa; /* 弹窗背景色 */
+    border-radius: 15px; /* 圆角 */
+}
+
+.swal-button {
+    background-color: #007BFF; /* 按钮颜色 */
+    border: none; /* 去掉边框 */
+    border-radius: 5px; /* 圆角 */
+    padding: 10px 20px; /* 按钮内边距 */
+    color: white; /* 字体颜色 */
+    transition: background-color 0.3s; /* 过渡效果 */
+}
+
+.swal-button:hover {
+    background-color: #0056b3; /* 悬停时的颜色 */
+}
+
+
