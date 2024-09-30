@@ -26,6 +26,8 @@ let currentTheme = [];
 let flippedCards = [];
 let canFlip = false; // 控制是否可以翻转
 let countdownInterval; // 倒计时定时器
+let gameStartTime; // 记录游戏开始时间
+let gameDuration; // 记录游戏持续时间
 
 // 更新选中按钮的函数
 function updateSelectedButton(selectedId) {
@@ -103,10 +105,13 @@ document.getElementById("start-game").onclick = () => {
                 document.querySelectorAll('.card:not([style*="visibility: hidden"])').length === 0;
 
               if (allCardsHidden) {
+                const gameEndTime = Date.now(); // 记录游戏结束时间
+                gameDuration = (gameEndTime - gameStartTime) / 1000; // 计算游戏持续时间（秒）
+
                 setTimeout(() => {
                   Swal.fire({
                     title: '遊戲結束',
-                    text: '所有卡片已匹配完成！',
+                    text: `所有卡片已匹配完成！\n您遊玩了 ${gameDuration.toFixed(2)} 秒!`,
                     icon: 'success',
                     confirmButtonText: '重新開始'
                   }).then(() => {
@@ -133,6 +138,10 @@ document.getElementById("start-game").onclick = () => {
   countdownElement.textContent = countdownTime;
   countdownElement.style.visibility = "visible";
 
+// 记录游戏开始时间和持续时间
+let gameStartTime;
+let gameDuration;
+
   countdownInterval = setInterval(() => {
     countdownTime--;
     countdownElement.textContent = countdownTime;
@@ -147,6 +156,14 @@ document.getElementById("start-game").onclick = () => {
       });
 
       canFlip = true; // 倒计时结束后允许翻转
+      gameStartTime = Date.now(); // 记录游戏开始时间
+      countdownElement.textContent = "遊玩時間: 0.00 秒"; // 初始显示为游戏时间
+
+      // 开始计时更新
+      const gameTimerInterval = setInterval(() => {
+        gameDuration = Math.floor((Date.now() - gameStartTime) / 1000); // 计算已过时间
+        countdownElement.textContent = `遊玩時間: ${gameDuration.toFixed(2)} 秒`;
+      }, 100); // 每100毫秒更新一次显示
     }
   }, 1000);
 
