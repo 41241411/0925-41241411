@@ -47,8 +47,8 @@ document.getElementById("theme-16").onclick = () => {
 
 document.getElementById("start-game").onclick = () => {
   if (countdownInterval) {
-    clearInterval(countdownInterval); // 停止旧的倒计时
-    document.getElementById("countdown").style.visibility = "hidden"; // 隐藏倒计时
+    clearInterval(countdownInterval);
+    document.getElementById("countdown").style.visibility = "hidden";
   }
 
   if (currentTheme.length === 0) {
@@ -56,32 +56,35 @@ document.getElementById("start-game").onclick = () => {
     return;
   }
 
-  cardContainer.innerHTML = ""; // 清空之前的卡片
-  shuffle(currentTheme); // 随机排列卡片
+  // 禁用主题选择按钮
+  document.getElementById("theme-8").disabled = true;
+  document.getElementById("theme-16").disabled = true;
+
+  cardContainer.innerHTML = ""; // 清空卡片容器
+  shuffle(currentTheme); // 随机打乱卡片顺序
 
   currentTheme.forEach((data) => {
     const card = document.createElement("div");
-    card.className = "card flipped"; // 先显示背面
+    card.className = "card"; // 初始状态不添加flipped类，表示背面朝上
 
     card.innerHTML = `
-            <div class="face front">
-                <img src="${data.front}" alt="正面圖片">
-            </div>
-            <div class="face back">
-                <img src="${data.back}" alt="背面圖片">
-            </div>
-        `;
+      <div class="face front">
+        <img src="${data.front}" alt="正面圖片">
+      </div>
+      <div class="face back">
+        <img src="${data.back}" alt="背面圖片">
+      </div>
+    `;
 
     // 添加点击事件
     card.addEventListener("click", () => {
-      if (!canFlip || card.classList.contains("flipped")) return; // 如果不能翻转或已翻转则返回
+      if (!canFlip || card.classList.contains("flipped")) return;
 
-      card.classList.add("flipped"); // 立即翻转当前卡片
-      flippedCards.push(card); // 存储已翻转的卡片
+      card.classList.add("flipped");
+      flippedCards.push(card);
 
-      // 如果翻转的卡片数量达到两张
       if (flippedCards.length === 2) {
-        canFlip = false; // 禁止再翻转
+        canFlip = false;
         setTimeout(() => {
           const [card1, card2] = flippedCards;
           const isMatch =
@@ -89,67 +92,70 @@ document.getElementById("start-game").onclick = () => {
             card2.querySelector(".back img").src;
 
           if (isMatch) {
-            // 匹配时，添加背面淡出效果
             card1.querySelector('.back').classList.add("fade-out");
             card2.querySelector('.back').classList.add("fade-out");
 
-            // 在动画结束后隐藏卡片
             setTimeout(() => {
               card1.style.visibility = "hidden";
               card2.style.visibility = "hidden";
 
-              // 检查是否所有卡片都已隐藏
               const allCardsHidden =
-                document.querySelectorAll(
-                  '.card:not([style*="visibility: hidden"])'
-                ).length === 0;
+                document.querySelectorAll('.card:not([style*="visibility: hidden"])').length === 0;
 
-                if (allCardsHidden) {
-                    setTimeout(() => {
-                      // 使用 SweetAlert2 显示弹窗
-                      Swal.fire({
-                        title: '遊戲結束',
-                        text: '所有卡片已匹配完成！',
-                        icon: 'success',
-                        confirmButtonText: '重新開始'
-                      }).then(() => {
-                        // 可以在这里重置游戏或执行其他操作
-                        location.reload(); // 刷新页面以重新开始游戏
-                      });
-                    }, 500); // 延迟弹窗，以免被翻转动画干扰
-                  }
-            }, 1000); // 1秒后卡片淡出并隐藏
+              if (allCardsHidden) {
+                setTimeout(() => {
+                  Swal.fire({
+                    title: '遊戲結束',
+                    text: '所有卡片已匹配完成！',
+                    icon: 'success',
+                    confirmButtonText: '重新開始'
+                  }).then(() => {
+                    location.reload();
+                  });
+                }, 500);
+              }
+            }, 1000);
           } else {
-            card1.classList.remove("flipped"); // 翻回正面
+            card1.classList.remove("flipped");
             card2.classList.remove("flipped");
           }
-          flippedCards = []; // 清空已翻转的卡片
-          canFlip = true; // 允许翻转
-        }, 500); // 1秒后进行匹配检查
+          flippedCards = [];
+          canFlip = true;
+        }, 500);
       }
     });
 
     cardContainer.appendChild(card);
   });
 
-  let countdownTime = 10; // 倒计时的初始值
+  let countdownTime = 10; // 设置倒计时
   const countdownElement = document.getElementById("countdown");
-  countdownElement.textContent = countdownTime; // 显示初始时间
-  countdownElement.style.visibility = "visible"; // 显示倒计时
+  countdownElement.textContent = countdownTime;
+  countdownElement.style.visibility = "visible";
 
   countdownInterval = setInterval(() => {
-    countdownTime--; // 每秒减少1
-    countdownElement.textContent = countdownTime; // 更新倒计时显示
+    countdownTime--;
+    countdownElement.textContent = countdownTime;
 
     if (countdownTime <= 0) {
-      clearInterval(countdownInterval); // 停止倒计时
-      countdownElement.style.visibility = "hidden"; // 倒计时结束隐藏
-      document
-        .querySelectorAll(".card")
-        .forEach((card) => card.classList.remove("flipped")); // 翻回正面
+      clearInterval(countdownInterval);
+      countdownElement.style.visibility = "hidden";
+
+      // 倒计时结束后翻回所有卡片
+      document.querySelectorAll(".card").forEach((card) => {
+        card.classList.remove("flipped"); // 确保所有卡片在倒计时结束时显示背面
+      });
+
       canFlip = true; // 倒计时结束后允许翻转
     }
-  }, 1000); // 每秒更新
+  }, 1000);
+
+  // 初始状态下先展示正面
+  document.querySelectorAll(".card").forEach((card) => {
+    card.classList.add("flipped"); // 在游戏开始时先展示卡片的正面
+  });
+
+  canFlip = false; // 禁用翻转，直到倒计时结束
 };
 
 document.getElementById("show-front").onclick = () => {
