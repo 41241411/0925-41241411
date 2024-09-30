@@ -1,3 +1,4 @@
+/* 整体样式 */
 body {
     display: flex;
     flex-direction: column;
@@ -13,28 +14,28 @@ body {
 
 button.selected {
     background: #000000; /* 选中状态背景颜色 */
-    /*border: 2px solid #fff;  选中状态边框 */
 }
 
+
+
+/* 主要容器 */
 .container {
-    margin: 0 auto; /* 中心对齐 */
-    padding: 20px; /* 保持内边距一致 */
+    padding: 20px;
     display: grid;
-    grid-template-columns: repeat(4, 200px); /* 固定为4列，每列200px宽 */
-    grid-template-rows: repeat(4, 300px); /* 固定为4行，每行300px高 */
-    gap: 20px; /* 列间距 */
+    grid-template-columns: repeat(4, 1fr); /* 固定4列布局 */
+    grid-template-rows: repeat(4, 1fr); /* 固定4行布局 */
+    gap: 10px; /* 卡片间距 */
     perspective: 1000px; /* 3D效果 */
-    width: calc(4 * 200px + 3 * 20px + 40px); /* 根据列宽和间距计算总宽度 */
-    height: calc(4 * 300px + 3 * 20px); /* 根据行高和间距计算总高度 */
+    width: 40vw; /* 视窗宽度的80% */
+    height: 80vh; /* 视窗高度的80% */
+    max-width: 1000px; /* 最大宽度，避免卡片过大 */
+    max-height: 1000px; /* 最大高度，避免卡片过大 */
 }
 
-
-
-
-
+/* 卡片样式 */
 .card {
-    width: 200px;
-    height: 300px;
+    width: 100%;
+    padding-top: 50%; /* 通过比例保持卡片的高度 */
     position: relative;
     transform-style: preserve-3d;
     transition: transform 0.6s;
@@ -54,6 +55,8 @@ button.selected {
 
 .face {
     position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
@@ -103,10 +106,23 @@ button:active {
 }
 
 #countdown {
-    font-size: 24px;
-    margin-bottom: 20px;
+    font-size: 80px;
+    font-weight: bold;
+    color: #ff0000;
+    animation: pulse 1s infinite;
     visibility: hidden; /* 初始状态为隐藏，但保留空间 */
-    height: 30px; /* 设置固定高度 */
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 
 .button-container label {
@@ -142,7 +158,6 @@ button:active {
     }
 }
 
-
 .fade-out {
     opacity: 0; /* 设置透明度为0 */
     transition: opacity 1s ease; /* 1秒内渐隐 */
@@ -165,5 +180,3 @@ button:active {
 .swal-button:hover {
     background-color: #0056b3; /* 悬停时的颜色 */
 }
-
-
